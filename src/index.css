@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.vanta {
+  min-height: 300px;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+}
