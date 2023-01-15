@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState, useRef } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -46,11 +46,83 @@ const TinyText = styled(Typography)({
   letterSpacing: 0.2,
 });
 
-export default function MusicPlayerSlider({ track, children }) {
+export default function MusicPlayerSlider({ track, children, onNext, onLast }) {
+  const { name, album, artist, path } = track;
+
   const theme = useTheme();
-  const duration = track.duration; // seconds
-  const [position, setPosition] = React.useState(0);
-  const [paused, setPaused] = React.useState(true);
+  let audio = new Audio(track.path);
+
+  const audioRef = useRef(audio);
+  const intervalRef = useRef();
+  const isReady = useRef(false);
+
+  const { duration, currentTime } = audioRef.current;
+  const [trackProgress, setTrackProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const startTimer = () => {
+    // Clear any timers already running
+    clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      if (audioRef.current.ended) {
+        onNext();
+      } else {
+        setTrackProgress(audioRef.current.currentTime);
+      }
+    }, [1000]);
+  };
+
+  // Toggle playback when isPlaying changes
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current.play();
+      startTimer();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying]);
+
+  // Handles cleanup and setup when changing tracks
+  useEffect(() => {
+    audioRef.current.pause();
+
+    audioRef.current = new Audio(path);
+    setTrackProgress(audioRef.current.currentTime);
+
+    if (isReady.current) {
+      audioRef.current.play();
+      setIsPlaying(true);
+      startTimer();
+    } else {
+      // Set the isReady ref as true for the next pass
+      isReady.current = true;
+    }
+  }, [track]);
+
+  useEffect(() => {
+    // Pause and clean up on unmount
+    return () => {
+      audioRef.current.pause();
+      clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  const onScrub = (value) => {
+    console.log(value);
+    // Clear any timers already running
+    clearInterval(intervalRef.current);
+    audioRef.current.currentTime = value;
+    setTrackProgress(audioRef.current.currentTime);
+  };
+
+  const onScrubEnd = () => {
+    // If not already playing, start
+    if (!isPlaying) {
+      setIsPlaying(true);
+    }
+    startTimer();
+  };
 
   function formatDuration(value: number) {
     const minute = Math.floor(value / 60);
@@ -74,24 +146,27 @@ export default function MusicPlayerSlider({ track, children }) {
               color="text.secondary"
               fontWeight={500}
             >
-              {track.artist}
+              {artist}
             </Typography>
             <Typography noWrap>
-              <b>{track.name}</b>
+              <b>{name}</b>
             </Typography>
             <Typography noWrap letterSpacing={-0.25}>
-              {track.album}
+              {album}
             </Typography>
           </Box>
         </Box>
         <Slider
           aria-label="time-indicator"
           size="small"
-          value={position}
+          value={currentTime}
           min={0}
-          step={1}
-          max={duration}
-          onChange={(x, value) => setPosition(Number(value))}
+          max={Number(duration)}
+          onMouseUp={onScrubEnd}
+          onKeyUp={onScrubEnd}
+          onChange={(x, value) => {
+            onScrub(value);
+          }}
           sx={{
             color: theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",
             height: 4,
@@ -127,8 +202,10 @@ export default function MusicPlayerSlider({ track, children }) {
             mt: -2,
           }}
         >
-          <TinyText>{formatDuration(position)}</TinyText>
-          <TinyText>-{formatDuration(duration - position)}</TinyText>
+          <TinyText>{formatDuration(currentTime.toFixed(0))}</TinyText>
+          <TinyText>
+            -{formatDuration((track.duration - currentTime).toFixed(0))}
+          </TinyText>
         </Box>
         <Box
           sx={{
@@ -138,26 +215,26 @@ export default function MusicPlayerSlider({ track, children }) {
             mt: -1,
           }}
         >
-          <IconButton aria-label="previous song">
+          <IconButton aria-label="previous song" onClick={onLast}>
             <FastRewindRounded fontSize="large" htmlColor={mainIconColor} />
           </IconButton>
           <IconButton
-            aria-label={paused ? "play" : "pause"}
-            onClick={() => setPaused(!paused)}
+            aria-label={isPlaying ? "play" : "pause"}
+            onClick={() => setIsPlaying(!isPlaying)}
           >
-            {paused ? (
-              <PlayArrowRounded
+            {isPlaying ? (
+              <PauseRounded
                 sx={{ fontSize: "3rem" }}
                 htmlColor={mainIconColor}
               />
             ) : (
-              <PauseRounded
+              <PlayArrowRounded
                 sx={{ fontSize: "3rem" }}
                 htmlColor={mainIconColor}
               />
             )}
           </IconButton>
-          <IconButton aria-label="next song">
+          <IconButton aria-label="next song" onClick={onNext}>
             <FastForwardRounded fontSize="large" htmlColor={mainIconColor} />
           </IconButton>
         </Box>
@@ -170,7 +247,10 @@ export default function MusicPlayerSlider({ track, children }) {
           <VolumeDownRounded htmlColor={lightIconColor} />
           <Slider
             aria-label="Volume"
-            defaultValue={30}
+            defaultValue={100}
+            onChange={(e) => {
+              audio.volume = e.target.value;
+            }}
             sx={{
               color:
                 theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",

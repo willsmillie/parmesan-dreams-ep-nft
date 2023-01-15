@@ -1,124 +1,31 @@
 import { useState } from "react";
-import {
-  Container,
-  AppBar,
-  Toolbar,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Box,
-  Stack,
-  Space,
-} from "@mui/material";
-import moment from "moment";
-import AspectRatio from "@mui/joy/AspectRatio";
-import {
-  MouseParallaxChild,
-  MouseParallaxContainer,
-} from "react-parallax-mouse";
+import { Typography, List, ListItem, ListItemText, Stack } from "@mui/material";
 
+import moment from "moment";
+
+import Cover from "./components/Cover";
 import tracks from "./data/tracks";
 import Player from "./Player";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const isSelected = (item) => selectedIndex === item;
   var track = tracks.find((e) => e.id === selectedIndex);
 
-  function isSelected(item) {
-    return selectedIndex === item;
-  }
-
-  const Layers = (count) => {
-    return (
-      <MouseParallaxContainer
-        className="parallax"
-        containerStyle={{
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          position: "absolute",
-        }}
-        globalFactorX={0.3}
-        globalFactorY={0.3}
-        resetOnLeave
-      >
-        <MouseParallaxChild
-          factorX={-0.1}
-          factorY={-0.1}
-          style={{
-            transform: "scale(1.2)",
-            position: "absolute",
-            display: "flex",
-            opacity: 1,
-            backfaceVisibility: "hidden",
-          }}
-        >
-          <img height="100%" width="100%" src="cover.jpg" alt="" />
-        </MouseParallaxChild>
-
-        <MouseParallaxChild
-          factorX={0.1}
-          factorY={0.1}
-          style={{
-            transform: "scale(1.2)",
-            position: "absolute",
-            display: "flex",
-            opacity: 0.8,
-            backfaceVisibility: "hidden",
-          }}
-        >
-          <img height="100%" width="100%" src="cover.jpg" alt="" />
-        </MouseParallaxChild>
-
-        <MouseParallaxChild
-          factorX={0.3}
-          factorY={0.3}
-          style={{
-            transform: "scale(1.2)",
-            position: "absolute",
-            display: "center",
-            opacity: 0.6,
-            display: "flex",
-            backfaceVisibility: "hidden",
-          }}
-        >
-          <img height="100%" width="100%" src="cover.jpg" alt="" />
-        </MouseParallaxChild>
-        <MouseParallaxChild
-          factorX={0.5}
-          factorY={0.5}
-          style={{
-            transform: "scale(1.2)",
-            position: "absolute",
-            display: "center",
-            opacity: 0.4,
-          }}
-        >
-          <img height="100%" width="100%" src="cover.jpg" alt="" />
-        </MouseParallaxChild>
-      </MouseParallaxContainer>
-    );
+  const toPrevTrack = () => {
+    if (selectedIndex - 1 < 0) {
+      setSelectedIndex(tracks.length - 1);
+    } else {
+      setSelectedIndex(selectedIndex - 1);
+    }
   };
 
-  const header = () => {
-    return (
-      <AspectRatio ratio="1/1">
-        <Box
-          sx={{
-            margin: 10,
-          }}
-        >
-          {/* <AspectRatio ratio="1/1"> */}
-          <Player track={track}>
-            <TrackList />
-          </Player>
-          {/* </AspectRatio> */}
-        </Box>
-        <Layers style={{ top: 0 }} />
-      </AspectRatio>
-    );
+  const toNextTrack = () => {
+    if (selectedIndex < tracks.length - 1) {
+      setSelectedIndex(selectedIndex + 1);
+    } else {
+      setSelectedIndex(0);
+    }
   };
 
   const TrackList = () => {
@@ -155,11 +62,13 @@ function App() {
   };
 
   return (
-    <>
-      <div className="App">
-        <Stack>{header()}</Stack>
-      </div>
-    </>
+    <div className="App">
+      <Cover>
+        <Player track={track} onNext={toNextTrack} onLast={toPrevTrack}>
+          <TrackList />
+        </Player>
+      </Cover>
+    </div>
   );
 }
 
