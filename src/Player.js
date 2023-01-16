@@ -124,7 +124,7 @@ export default function MusicPlayerSlider({ track, children, onNext, onLast }) {
     startTimer();
   };
 
-  function formatDuration(value: number) {
+  function formatDuration(value) {
     const minute = Math.floor(value / 60);
     const secondLeft = value - minute * 60;
     return `${minute}:${secondLeft < 10 ? `0${secondLeft}` : secondLeft}`;
@@ -249,7 +249,8 @@ export default function MusicPlayerSlider({ track, children, onNext, onLast }) {
             aria-label="Volume"
             defaultValue={100}
             onChange={(e) => {
-              audio.volume = e.target.value;
+              let v = e.target.value / 100;
+              audioRef.current.volume = Number(v);
             }}
             sx={{
               color:
