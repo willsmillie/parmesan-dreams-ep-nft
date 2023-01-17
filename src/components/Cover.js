@@ -6,11 +6,12 @@ import {
 import { Box, ButtonBase } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 
-const Cover = ({ count, style, children }) => {
+const Cover = ({ track, count, style, children }) => {
   const [isAnimating, setIsAnimating] = useState(true);
 
   const sx = {
     ...style,
+    position: "relative",
     transform: "scale(1.2)",
     position: "absolute",
     backgroundSize: "cover",
@@ -20,6 +21,70 @@ const Cover = ({ count, style, children }) => {
 
   const toggleAnimations = () => setIsAnimating(!isAnimating);
   const f = isAnimating ? 1 : 0;
+
+  const parallax = ({ asset }) => {
+    return (
+      <MouseParallaxContainer
+        className="parallax"
+        containerStyle={{
+          position: "absolute",
+          height: "100%",
+          width: "100%",
+        }}
+        globalFactorX={-0.3}
+        globalFactorY={-0.3}
+        resetOnLeave
+      >
+        <MouseParallaxChild
+          factorX={-0.1 * f}
+          factorY={-0.1 * f}
+          style={{
+            ...sx,
+            opacity: 1,
+          }}
+        >
+          src={`${asset}`}
+          <img height="100%" width="100%" src={`${asset}`} alt="" />
+        </MouseParallaxChild>
+
+        <MouseParallaxChild
+          factorX={0.1 * f}
+          factorY={0.1 * f}
+          style={{
+            ...sx,
+            opacity: 0.8,
+          }}
+        >
+          <img height="100%" width="100%" src={`${asset}`} alt="" />
+        </MouseParallaxChild>
+
+        <MouseParallaxChild
+          factorX={0.3 * f}
+          factorY={0.3 * f}
+          style={{
+            ...sx,
+            opacity: 0.6,
+          }}
+        >
+          <img height="100%" width="100%" src={`${asset}`} alt="" />
+        </MouseParallaxChild>
+        <MouseParallaxChild
+          factorX={0.5 * f}
+          factorY={0.5 * f}
+          style={{
+            ...sx,
+            opacity: 0.4,
+          }}
+        >
+          <img height="100%" width="100%" src={`${asset}`} alt="" />
+        </MouseParallaxChild>
+      </MouseParallaxContainer>
+    );
+  };
+
+  const getAssetFromTrack = (track) => {
+    return track.covers[track.covers.length - 1];
+  };
 
   return (
     <AspectRatio ratio="1/1">
@@ -39,60 +104,7 @@ const Cover = ({ count, style, children }) => {
             justifyContent: "center",
           }}
         >
-          <MouseParallaxContainer
-            className="parallax"
-            containerStyle={{
-              position: "absolute",
-              height: "100%",
-              width: "100%",
-            }}
-            globalFactorX={-0.3}
-            globalFactorY={-0.3}
-            resetOnLeave
-          >
-            <MouseParallaxChild
-              factorX={-0.1 * f}
-              factorY={-0.1 * f}
-              style={{
-                ...sx,
-                opacity: 1,
-              }}
-            >
-              <img height="100%" width="100%" src="cover.jpg" alt="" />
-            </MouseParallaxChild>
-
-            <MouseParallaxChild
-              factorX={0.1 * f}
-              factorY={0.1 * f}
-              style={{
-                ...sx,
-                opacity: 0.8,
-              }}
-            >
-              <img height="100%" width="100%" src="cover.jpg" alt="" />
-            </MouseParallaxChild>
-
-            <MouseParallaxChild
-              factorX={0.3 * f}
-              factorY={0.3 * f}
-              style={{
-                ...sx,
-                opacity: 0.6,
-              }}
-            >
-              <img height="100%" width="100%" src="cover.jpg" alt="" />
-            </MouseParallaxChild>
-            <MouseParallaxChild
-              factorX={0.5 * f}
-              factorY={0.5 * f}
-              style={{
-                ...sx,
-                opacity: 0.4,
-              }}
-            >
-              <img height="100%" width="100%" src="cover.jpg" alt="" />
-            </MouseParallaxChild>
-          </MouseParallaxContainer>
+          {parallax({ asset: track ? getAssetFromTrack(track) : "cover.jpg" })}
         </ButtonBase>
         {children}
       </Box>

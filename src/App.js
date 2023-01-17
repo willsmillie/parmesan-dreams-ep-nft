@@ -3,11 +3,14 @@ import { Typography, List, ListItem, ListItemText, Stack } from "@mui/material";
 
 import moment from "moment";
 
+import Background from "./Background";
+
 import Cover from "./components/Cover";
 import tracks from "./data/tracks";
 import Player from "./Player";
 
 function App() {
+  const [isPlaying, setIsPlaying] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isSelected = (item) => selectedIndex === item;
   var track = tracks.find((e) => e.id === selectedIndex);
@@ -63,8 +66,14 @@ function App() {
 
   return (
     <div className="App">
-      <Cover>
-        <Player track={track} onNext={toNextTrack} onLast={toPrevTrack}>
+      <Cover track={isPlaying ? track : false}>
+        <Player
+          track={track}
+          isPlaying={isPlaying}
+          onToggle={setIsPlaying}
+          onNext={toNextTrack}
+          onLast={toPrevTrack}
+        >
           <TrackList />
         </Player>
       </Cover>

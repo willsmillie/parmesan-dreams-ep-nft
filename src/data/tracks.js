@@ -5,7 +5,7 @@ const tracks = [
     album: "Parmesan Dreams",
     artist: "Parmesan Dreams",
     duration: 248,
-    cover: "cover.jpg",
+    covers: ["1.gif"],
     path: "assets/01_i'm_just_a_dog.mp3",
   },
   {
@@ -14,7 +14,7 @@ const tracks = [
     album: "Parmesan Dreams",
     artist: "Parmesan Dreams",
     duration: 212,
-    cover: "cover.jpg",
+    covers: ["2.gif"],
     path: "assets/02_once_in_a_while.mp3",
   },
   {
@@ -23,7 +23,7 @@ const tracks = [
     album: "Parmesan Dreams",
     artist: "Parmesan Dreams",
     duration: 225,
-    cover: "cover.jpg",
+    covers: ["3.gif"],
     path: "assets/03_idk_what_i'm_looking_for.mp3",
   },
   {
@@ -31,8 +31,8 @@ const tracks = [
     name: "don't feed the wolves",
     album: "Parmesan Dreams",
     artist: "Parmesan Dreams",
-    duration: 206,
-    cover: "cover.jpg",
+    duration: 267,
+    covers: ["4.gif"],
     path: "assets/04_don't_feed_the_wolves.mp3",
   },
 ];
