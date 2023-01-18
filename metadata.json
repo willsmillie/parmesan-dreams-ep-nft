@@ -1,0 +1,9 @@
+{
+    "description": "A test mint of the self-titled EP from Parmesan Dreams",
+    "image": "ipfs://bafybeiet2ypdh7y3lruvzyfiiu7ukxtngvihguyocf4jjifk64s75ua2i4/cover.gif",
+    "animation_url": "ipfs://bafybeiet2ypdh7y3lruvzyfiiu7ukxtngvihguyocf4jjifk64s75ua2i4",
+    "name": "Parmesan Dreams - EP - Test Mint",
+    "artist": "Parmesan Dreams",
+    "royalty_percentage": 4,
+    "collection_metadata": "https://nftinfos.loopring.io/0xe8260eb9541982c8b4eb74831e08154556695879"
+}

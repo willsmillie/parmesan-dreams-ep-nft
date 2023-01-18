@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Typography, List, ListItem, ListItemText, Stack } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 
 import moment from "moment";
-
-import Background from "./Background";
 
 import Cover from "./components/Cover";
 import tracks from "./data/tracks";
@@ -65,19 +64,17 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Cover track={isPlaying ? track : false}>
-        <Player
-          track={track}
-          isPlaying={isPlaying}
-          onToggle={setIsPlaying}
-          onNext={toNextTrack}
-          onLast={toPrevTrack}
-        >
-          <TrackList />
-        </Player>
-      </Cover>
-    </div>
+    <Cover track={isPlaying ? track : false}>
+      <Player
+        track={track}
+        isPlaying={isPlaying}
+        onToggle={setIsPlaying}
+        onNext={toNextTrack}
+        onLast={toPrevTrack}
+      >
+        <TrackList />
+      </Player>
+    </Cover>
   );
 }
 
