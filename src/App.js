@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Typography, List, ListItem, ListItemText, Stack } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
 
+import KonamiCode from "./components/KonamiCode";
+import Secrets from "./components/Secrets";
 import moment from "moment";
 
 import Cover from "./components/Cover";
@@ -10,6 +11,8 @@ import Player from "./Player";
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const toggleLock = () => setIsUnlocked(!isUnlocked);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isSelected = (item) => selectedIndex === item;
   var track = tracks.find((e) => e.id === selectedIndex);
@@ -64,17 +67,28 @@ function App() {
   };
 
   return (
-    <Cover track={isPlaying ? track : false}>
-      <Player
-        track={track}
-        isPlaying={isPlaying}
-        onToggle={setIsPlaying}
-        onNext={toNextTrack}
-        onLast={toPrevTrack}
-      >
-        <TrackList />
-      </Player>
-    </Cover>
+    <>
+      <KonamiCode
+        handler={(event) => {
+          toggleLock();
+          console.log("SECRETS UNLOCKED!");
+        }}
+      />
+
+      <Secrets show={isUnlocked} onClose={toggleLock} />
+
+      <Cover track={isPlaying ? track : false}>
+        <Player
+          track={track}
+          isPlaying={isPlaying}
+          onToggle={setIsPlaying}
+          onNext={toNextTrack}
+          onLast={toPrevTrack}
+        >
+          <TrackList />
+        </Player>
+      </Cover>
+    </>
   );
 }
 

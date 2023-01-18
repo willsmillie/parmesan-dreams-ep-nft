@@ -4,10 +4,10 @@
 
 > I’m just a dog \
 > I’ll do anything for your love \
-> I sit at the door \ 
-> And wait for your arrival \ 
-> Thinking about where you’ve gone \ 
-> Wondering who is it that you want \ 
+> I sit at the door \
+> And wait for your arrival \
+> Thinking about where you’ve gone \
+> Wondering who is it that you want \
 > You’re keeping me calm \
 > But who am I when you’re gone \
 > \
@@ -41,7 +41,6 @@
 > But all fucked up\
 > \
 > I'm just a dog
->
 
 ### 2) once in a while (3:23)
 
@@ -64,7 +63,6 @@
 > This labyrinth unfound\
 > But once in a while\
 > I find my way out\
->
 
 ### 3) idk what i'm looking for (3:45)
 
@@ -102,7 +100,6 @@
 > It will begin again\
 > But right now it's different\
 > It all falls to place\
->
 
 ### 4) don't feed the wolves (4:26)
 
@@ -117,7 +114,6 @@
 > \
 > And I'm gonna love you with all of my might\
 > It's too late to fight\
->
 
 ## Credits
 
@@ -128,7 +124,6 @@ Thank you to my dear friends, who listened to demos a hundred times with me, pro
 Lastly a very special, heartfelt, thank you to my parents for their continued love and support. I love you!
 
 Lilly, you were best dog a family could have asked for, we love and miss you every day!
-
 
 Parmesan Dreams was recorded pre-pandemic with Andrew Tachine (drums, percussion), Abe Nouri (keys), Will Smillie (vocals, guitar, bass). The band worked remotely over the course of several months, sending tracks back and forth, late at night, wring, getting feedback, iterating, the culmination leading to Parmesan Dreams' self-titled EP.
 
