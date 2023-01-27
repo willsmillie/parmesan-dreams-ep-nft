@@ -61,7 +61,8 @@ export default function MusicPlayerSlider({
   const intervalRef = useRef();
   const isReady = useRef(false);
 
-  const { duration, currentTime } = audioRef.current;
+  const duration = audioRef.current.duration || 0;
+  const currentTime = audioRef.current.currentTime || 0;
   const [trackProgress, setTrackProgress] = useState(0);
 
   function setIsPlaying(play) {
@@ -141,7 +142,7 @@ export default function MusicPlayerSlider({
     theme.palette.mode === "dark" ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)";
 
   return (
-    <Widget>
+    <Widget sx={{ marginTop: "4%" }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <CoverImage>
           <img alt="track-artwork" src={"cover.jpg"} />
