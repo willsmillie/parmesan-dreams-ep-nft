@@ -97,6 +97,7 @@ export default function MusicPlayerSlider({
     audioRef.current.pause();
 
     audioRef.current = new Audio(path);
+    audioRef.current.crossOrigin = "anonymous";
     setTrackProgress(audioRef.current.currentTime);
 
     if (isReady.current) {
