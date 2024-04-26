@@ -2,6 +2,8 @@
 
 This project is demonstration of how one can create an interactive NFT music player.
 
+For a no-code solution, checkout [https://designer.nfttoolk.it](the interactive designer on designer.nfttoolk.it)
+
 ## Setup
 
 In the project directory, you can run:
